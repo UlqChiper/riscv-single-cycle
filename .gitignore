@@ -1,0 +1,17 @@
+# Simulation artifacts
+*.vcd
+*.log
+tb_alu
+tb_register_file
+tb_riscv_core
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
