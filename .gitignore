@@ -1,15 +1,37 @@
-# Simulation artifacts
-*.vcd
+# ================================
+# Vivado generated files
+# ================================
+*.jou
 *.log
+*.str
+*.wdb
+*.wcfg
+
+Vivado-ProJect/**/*.cache/
+Vivado-ProJect/**/*.gen/
+Vivado-ProJect/**/*.hw/
+Vivado-ProJect/**/*.ip_user_files/
+Vivado-ProJect/**/*.runs/
+Vivado-ProJect/**/*.sim/
+
+# ================================
+# Simulation artifacts
+# ================================
+*.vcd
+
 tb_alu
 tb_register_file
 tb_riscv_core
 
+# ================================
 # OS files
+# ================================
 .DS_Store
 Thumbs.db
 
+# ================================
 # Editor files
+# ================================
 *.swp
 *.swo
 *~
