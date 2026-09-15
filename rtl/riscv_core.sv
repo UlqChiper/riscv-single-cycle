@@ -1,14 +1,15 @@
 // RISC-V single-cycle core.
-// Single-cycle RISC-V core.
 `timescale 1ns / 1ps
 
 import alu_pkg::*;
 import opcode_pkg::*;
 import immediate_pkg::*;
 
-module riscv_core (
-    input logic        clk,
-    input logic        rst
+module riscv_core #(
+    parameter string PROGRAM_FILE = ""
+) (
+    input logic clk,
+    input logic rst
 );
 
     //
@@ -32,7 +33,9 @@ module riscv_core (
 
     logic [31:0] instruction;
 
-    instruction_memory instr_mem (
+    instruction_memory #(
+        .PROGRAM_FILE(PROGRAM_FILE)
+    ) instr_mem (
         .addr  (pc),
         .instr (instruction)
     );
@@ -49,12 +52,12 @@ module riscv_core (
     logic [2:0] funct3;
     logic [6:0] funct7;
 
-    assign opcode  = instruction[6:0];
-    assign rd_addr = instruction[11:7];
-    assign funct3  = instruction[14:12];
+    assign opcode   = instruction[6:0];
+    assign rd_addr  = instruction[11:7];
+    assign funct3   = instruction[14:12];
     assign rs1_addr = instruction[19:15];
     assign rs2_addr = instruction[24:20];
-    assign funct7  = instruction[31:25];
+    assign funct7   = instruction[31:25];
 
 
     //
@@ -70,16 +73,16 @@ module riscv_core (
     alu_op_t alu_op;
 
     control_unit control (
-        .opcode    (opcode),
-        .funct3    (funct3),
-        .funct7    (funct7),
-        .reg_write (reg_write),
-        .alu_src   (alu_src),
-        .mem_read  (mem_read),
-        .mem_write (mem_write),
-        .mem_to_reg(mem_to_reg),
-        .branch    (branch),
-        .alu_op    (alu_op)
+        .opcode     (opcode),
+        .funct3     (funct3),
+        .funct7     (funct7),
+        .reg_write  (reg_write),
+        .alu_src    (alu_src),
+        .mem_read   (mem_read),
+        .mem_write  (mem_write),
+        .mem_to_reg (mem_to_reg),
+        .branch     (branch),
+        .alu_op     (alu_op)
     );
 
 
@@ -163,12 +166,12 @@ module riscv_core (
     logic [31:0] memory_read_data;
 
     data_memory data_mem (
-        .clk       (clk),
-        .mem_read  (mem_read),
-        .mem_write (mem_write),
-        .addr      (alu_result),
-        .write_data(rs2_data),
-        .read_data (memory_read_data)
+        .clk        (clk),
+        .mem_read   (mem_read),
+        .mem_write  (mem_write),
+        .addr       (alu_result),
+        .write_data (rs2_data),
+        .read_data  (memory_read_data)
     );
 
 
@@ -190,10 +193,10 @@ module riscv_core (
 
     always_comb begin
 
-        // Default: execute next instruction
+        // Default: execute next instruction.
         next_pc = pc + 32'd4;
 
-        // Taken BEQ
+        // Taken BEQ.
         if (branch && alu_eq)
             next_pc = pc + immediate;
 
