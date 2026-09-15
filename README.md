@@ -4,19 +4,4 @@
 </p>
 A SystemVerilog implementation of a single-cycle RISC-V
 processor implementing a focused RV32I instruction subset.
-
-> 🚧 Work in progress — actively being developed.
-
-## Current Status
-
-- [x] ALU
-- [x] Register file
-- [x] Immediate generator
-- [x] Control unit
-- [x] Instruction memory
-- [x] Data memory
-- [x] Program counter
-- [x] Core integration
-- [x] Integrated verification
-
 ***Final Readme Soon***
